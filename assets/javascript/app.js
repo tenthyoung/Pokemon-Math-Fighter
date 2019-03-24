@@ -31,7 +31,9 @@ $(document).ready(function() {
 
 function playGame () {
     $('#playButton').on('click', function() {
-        alert('hi');
+        $('#dancingPikachu').hide();
+        $('#playButton').hide();
+        $('#menu').css("background", "url(../images/)");
     });
 }
 

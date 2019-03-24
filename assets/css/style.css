@@ -2,16 +2,31 @@
     height: 50px;
 }
 
+#battleScreen {
+    background: url('../images/battleScreenBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 573px;
+    height: 352px;
+    margin: 5% auto;
+    display: grid;
+    box-shadow: 1px 1px 5px 0px #000000;
+    border-radius: 5px;
+}
+
+
 #menu {
     background: url('../images/menuBackground.png');
     background-size: cover;
     background-repeat: no-repeat;
     width: 573px;
-    height: 100%;
+    height: 352px;
     margin: 5% auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    box-shadow: 1px 1px 5px 0px #000000;
+    border-radius: 5px;
 }
 
 #dancingPikachu {
@@ -56,9 +71,8 @@
         background-size: cover;
         background-repeat: no-repeat;
         text-align: right;
-        width: 450px;
+        width: 80%;
     }
-
 }
 
 
