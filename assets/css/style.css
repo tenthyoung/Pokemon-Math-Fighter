@@ -1,3 +1,7 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
 #pokeball {
     height: 50px;
 }
@@ -14,6 +18,42 @@
     border-radius: 5px;
 }
 
+.pokemonInfo {
+    margin: 3%;
+    background: white;
+    padding: 5%; 
+    border: #000000;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px 0px #000000;
+}
+
+.healthBar {
+    width: 95%;
+}
+
+#enemyPic {
+    padding-left: 50px;
+    height: 200px;
+}
+
+#yourPic {
+    padding-left: 50px;
+    height: 150px;
+}
+
+#textBox {
+    position: relative;
+    z-index: 5;
+    bottom: 30px;
+    margin: 0 auto;
+    background: white;
+    padding: 5%; 
+    height: 175px;
+    border: #000000;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px 0px #000000;
+}
+
 
 #menu {
     background: url('../images/menuBackground.png');
@@ -21,7 +61,7 @@
     background-repeat: no-repeat;
     width: 573px;
     height: 352px;
-    margin: 5% auto;
+    margin: 10% auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -72,6 +112,10 @@
         background-repeat: no-repeat;
         text-align: right;
         width: 80%;
+    }
+
+    #battleScreen {
+        margin: 10% 5%;
     }
 }
 

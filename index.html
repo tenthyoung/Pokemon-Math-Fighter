@@ -16,32 +16,53 @@
                 <img id="pokeball" src="./assets/images/pokeball.png" class="rounded-circle">
             </a>
         </div>
-    </nav>
-    <div class="menuContainer">
-        <div class="row">
-            <!-- <div id="menu" class="">
-                <img id="dancingPikachu" src="./assets/images/flippingPickachu.gif" alt="">
-                <a id="playButton" href="#" class="BUTTON_IJH">Play</a>
-            </div> -->
-            <div id="battleScreen">
-                <div id="enemyRow" class="row">
-                    <div id="enemyInfo" class="col-6">
-                        Charizard Lvl. 99
-                        <br>
-                        <progress id="enemyHealth" value="100" max="100"></progress>
-                    </div>
-                    <div id="enemyPicContainer" class="col-6">
-                        <img id="enemyPic"src="./assets/images/charizard.gif" alt="">
-                    </div>
+    </nav>   
+
+
+
+    <!-- <div id="menu" class="">
+        <img id="dancingPikachu" src="./assets/images/flippingPickachu.gif" alt="">
+        <a id="playButton" href="#" class="BUTTON_IJH">Play</a>
+    </div> -->
+    <div id="battleScreen">
+        <div id="enemyRow" class="row">
+            <div id="enemyInfoContainer" class="col-6">
+                <div class="pokemonInfo">
+                    Charizard Lv99
+                    <br>
+                    <progress id="enemyHealth" value="100" max="100" class="healthBar"></progress>
                 </div>
-                <div id="yourRow" class="row">
-                    <div id="yourPicContainer" class="col-6">
-                        <img src="./assets/images/blastoise.gif" alt="" class="" id="yourPic"> 
+            </div>
+            <div id="enemyPicContainer" class="col-6">
+                <img id="enemyPic"src="./assets/images/charizard.gif" alt="">
+            </div>
+        </div>
+        <div id="yourRow" class="row">
+            <div id="yourPicContainer" class="col-6">
+                <img src="./assets/images/blastoise.gif" alt="" class="" id="yourPic"> 
+            </div>
+            <div id="yourInfoContainer" class="col-6">
+                <div class="pokemonInfo">
+                    Blastoise Lv50 
+                    <br>
+                        <progress id="yourHealth" value="100" max="100" class="healthBar"></progress>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="textBox" class="col-12">
+                <div class="row">
+                    <div id="leftText" class="col-7">
+                        <p>Solve Math Problems to do more damage!</p>
+                        <p id="mathLine">
+                            <span id="number1">5</span>
+                            <span id="operator">X</span>
+                            <span id="number2">2</span>
+                        </p>
                     </div>
-                    <div id="yourInfo" class="col-6">
-                        Blastoise Lvl. 50 
-                        <br>
-                        <progress id="yourHealth" value="100" max="100"></progress>
+                    <div class="col-5">
+                        <input type="text">
+                        <button>Attack!</button>
                     </div>
                 </div>
             </div>
