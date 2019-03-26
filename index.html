@@ -18,17 +18,16 @@
         </div>
     </nav>   
 
-
-
     <!-- <div id="menu" class="">
         <img id="dancingPikachu" src="./assets/images/flippingPickachu.gif" alt="">
         <a id="playButton" href="#" class="BUTTON_IJH">Play</a>
     </div> -->
-    <div id="battleScreen">
+    <!-- make sure to add d-none below -->
+    <div id="battleScreen" class="">
         <div id="enemyRow" class="row">
             <div id="enemyInfoContainer" class="col-6">
                 <div class="pokemonInfo">
-                    Charizard Lv99
+                    Charizard <span class="level">Lv76</span>
                     <br>
                     <progress id="enemyHealth" value="100" max="100" class="healthBar"></progress>
                 </div>
@@ -43,7 +42,7 @@
             </div>
             <div id="yourInfoContainer" class="col-6">
                 <div class="pokemonInfo">
-                    Blastoise Lv50 
+                    Blastoise <span class="level">Lv54</span> 
                     <br>
                         <progress id="yourHealth" value="100" max="100" class="healthBar"></progress>
                 </div>
@@ -53,16 +52,17 @@
             <div id="textBox" class="col-12">
                 <div class="row">
                     <div id="leftText" class="col-7">
-                        <p>Solve Math Problems to do more damage!</p>
+                        <p id="prompt">Solve Math Problems to do more damage!</p>
                         <p id="mathLine">
                             <span id="number1">5</span>
                             <span id="operator">X</span>
-                            <span id="number2">2</span>
+                            <span id="number2">2</span> =
                         </p>
                     </div>
                     <div class="col-5">
-                        <input type="text">
-                        <button>Attack!</button>
+                            <p id="timer">Timer: <span id="currentTime">60</span> s</p>
+                        <input id="userAnswer" type="text" name="userAnswer">
+                        <button id="attackButton">Attack!</button>
                     </div>
                 </div>
             </div>
