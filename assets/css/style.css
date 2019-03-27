@@ -96,7 +96,7 @@ body {
     margin-top: 10px;
 }
 
-#attackButton {
+#attackButton, .replay {
     background: #F63E3E;
     background-image: linear-gradient(to bottom, #F63E3E, #D00000);
     border-radius: 20px;
@@ -115,6 +115,13 @@ body {
 }
 
 #attackButton:hover {
+    background: #D10000;
+    background-image: linear-gradient(to bottom, #D10000, #E84C41);
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.733);
+}
+
+.replay:hover {
     background: #D10000;
     background-image: linear-gradient(to bottom, #D10000, #E84C41);
     text-decoration: none;
@@ -193,6 +200,15 @@ body {
 
 .opacity {
     opacity: 0.6;
+}
+
+#gameOver {
+    position: relative;
+    z-index: 10;
+    bottom: 150%;
+    background-color: white;
+    box-shadow: 1px 1px 20px 0px #000000;
+    padding: 10% 10%;
 }
 
 @media only screen and (max-width: 640px) {

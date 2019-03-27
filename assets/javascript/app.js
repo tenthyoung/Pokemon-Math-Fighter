@@ -27,6 +27,10 @@ var enemyHealth = $('#enemyHealth'); //Selector
 var yourHealth = $('#yourHealth'); //Selector
 const compositeNumbers = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100, 102, 104, 105, 106, 108, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 132, 133, 134, 135, 136, 138, 140, 141, 142, 143, 144]
 var currentTime = 60;
+var sequenceStarted = false;
+var numQuestions = 1;
+var numCorrect = 0;
+
 //If the button is clicked game starts
 $(document).ready(function() {    
     playGame();
@@ -45,8 +49,8 @@ $(document).ready(function() {
 //Changes menu into battleScreen after pressing play
 function playGame () {
     $('#playButton').on('click', function() {
-        $('#dancingPikachu').hide();
-        $('#playButton').hide();
+        // $('#dancingPikachu').hide();
+        // $('#playButton').hide();
         $('#menu').addClass('d-none');
         $('#battleScreen').removeClass('d-none');
     });
@@ -55,6 +59,7 @@ function playGame () {
 function enterKeyforAttackButtonListener () {
     $(document).bind('keypress', function(e) {
         if (e.keyCode == 13) {
+
             $('#attackButton').trigger('click');
             $('#attackButton').css({
                 "background": "#D10000",
@@ -70,7 +75,10 @@ function enterKeyforAttackButtonListener () {
               }, 300);
             stopTimer();
             let userAnswer = $('#userAnswer').val();
-            isAnswerCorrect(userAnswer);
+            if (sequenceStarted == false) {
+                sequenceStarted = true;
+                isAnswerCorrect(userAnswer);
+            }
         }
     });
 }
@@ -128,7 +136,9 @@ function countDown() {
         currentTime--;
         $('#currentTime').text(currentTime);
     } else if (currentTime == 0) {
-       
+       wrongAnswerScenario();
+       stopTimer();
+       resetTimer();
     }
 
 }
@@ -141,7 +151,9 @@ function isAnswerCorrect(answer) {
     if (answer == correctAnswer) {
         console.log('Correct!');
         correctAnswerScenario();
+        numCorrect++;
     } else {
+        wrongAnswerScenario();
         console.log('Wrong!');
     }
 }
@@ -150,47 +162,116 @@ function isAnswerCorrect(answer) {
 function correctAnswerScenario () {
     let randomAttack = Math.floor(Math.random()*3); 
 
-    if (currentTime > 50) {
+    if (currentTime > 40) {
         bubble('critical');
         setTimeout(function(){
             charizardAttack(randomAttack);
         },3000);
-    } else if (currentTime > 30) {
+    } else if (currentTime > 20) {
         bubble();
         setTimeout(function(){
             charizardAttack(randomAttack);
         },3000);
-        // scratch();
     } else if (currentTime > 0) {
         scratch();
         setTimeout(function(){
             charizardAttack(randomAttack);
         },3000);
     }
+}
 
+function wrongAnswerScenario () {
+    let randomAttack = Math.floor(Math.random()*9); 
+    $('#prompt').text('Blastoise is confused!');
 
+    charizardAttack(randomAttack);
 }
 
 function charizardAttack(choice) {
-    let damagePossibilites = [10,12,15,18,20,25];
+    let damagePossibilites = [8,10,12,15];
     let index = Math.floor(Math.random()*damagePossibilites.length);
     let damageToYourHealth = damagePossibilites[index];
-    if (choice == 0) {
-        meteor('critical', damageToYourHealth);
+    if (choice <= 3) {
+        meteor('critical');
         setTimeout(function(){
-            yourHealth.val(Number(yourHealth.val()) - 30);
+            yourHealth.val(Number(yourHealth.val()) - 19);
         },3000)
-    } else if (choice == 1){
-        meteor(' ', damageToYourHealth);
-        setTimeout(function(){
-            yourHealth.val(Number(yourHealth.val()) - damageToYourHealth);
-        },3000)
-    } else {
+     } else {
         meteor(' ',damageToYourHealth);
         setTimeout(function(){
             yourHealth.val(Number(yourHealth.val()) - damageToYourHealth);
         },3000)
     }
+
+    isHealthZero();
+}
+
+function isHealthZero() {
+    if ( Number(yourHealth.val()) <= 0) {
+        youLost();
+    } else if ( Number(enemyHealth.val()) <= 0 ) {
+        youWin();
+    } else {
+        newQuestion();
+    }
+}
+
+function youLost() {
+    stopTimer();
+    $('#gameOver').removeClass('d-none');
+    $('#youLose').removeClass('d-none');
+    $('.correctAnswers').text(numCorrect);
+    $('.totalQuestions').text(numQuestions);
+
+    setTimeout(function(){
+        addReplayListener('lost');
+    },1000)
+}
+
+function youWin() {
+    stopTimer();
+    $('#gameOver').removeClass('d-none');
+    $('#youWin').removeClass('d-none');
+    $('.correctAnswers').text(numCorrect);
+    $('.totalQuestions').text(numQuestions);
+    setTimeout(function(){
+        addReplayListener('won');
+    },1000)
+}
+
+function addReplayListener(lastGameResult){
+    if (lastGameResult =='lost') {
+        $('#gameOver').addClass('d-none');
+        $('#youLose').addClass('d-none');
+        $('#replayLoseButton').on('click', function(){
+            console.log('replaybutton clicked');
+            $('#battleScreen').addClass('d-none');
+            $('#menu').removeClass('d-none');
+        });
+    } else {
+        $('#gameOver').addClass('d-none');
+        $('#youWin').addClass('d-none');
+        $('#replayWinButton').on('click', function(){
+            console.log('replaybutton clicked');
+            $('#battleScreen').addClass('d-none');
+            $('#menu').removeClass('d-none');
+        });
+    }
+}
+
+function newQuestion () {
+    setTimeout( function() {
+        numQuestions++;
+        $('#userAnswer').val('');
+        $('#prompt').text('Solve the math problem!');
+        currentOperator = randomOperator();
+        twoRandomNumbers(currentOperator);
+        displayProblem();
+
+        resetTimer();
+        startTimer();
+        sequenceStarted = false;
+    },5000);
 }
 
 function scratch () {
@@ -201,13 +282,14 @@ function scratch () {
     }, 500);
     setTimeout(function() {
         $('#reverseScratch').removeClass('d-none')
-        enemyHealth.val(Number(enemyHealth.val()) - 5);
-    }, 300);
+        enemyHealth.val(Number(enemyHealth.val()) - 10);
+    }, 1000);
     setTimeout(function() {
         $('#scratch').addClass('d-none')
         $('#reverseScratch').addClass('d-none')
         $('#prompt').text('It wasn\'t very effective...');
-    }, 1000);
+    }, 2500);
+    isHealthZero();
 }
 
 function bubble (power) {
@@ -221,19 +303,18 @@ function bubble (power) {
         setTimeout(function() {
             $('#bubble').addClass('d-none')
             if (power == 'critical') {
-                enemyHealth.val(Number(enemyHealth.val()) - 15);
+                enemyHealth.val(Number(enemyHealth.val()) - 20);
                 $('#prompt').text('It was super effective!');
             } else {
-                enemyHealth.val(Number(enemyHealth.val()) - 10);
+                enemyHealth.val(Number(enemyHealth.val()) - 15);
                 $('#prompt').text('It was effective!');
             }
         }, 2000);
     },1000);
-
+    isHealthZero();
 }
 
-function meteor (power,damage) {
-
+function meteor (power) {
     setTimeout(function () {
         setTimeout(function() {
             $('#meteorDiv').removeClass('d-none');
@@ -246,10 +327,10 @@ function meteor (power,damage) {
             if (power == 'critical') {
                 setTimeout(function(){
                     $('#prompt').text('Critical hit!');
-                },2000);
+                },500);
             } else {
                 setTimeout(function(){
-                    $('#prompt').text('It was effective!');
+                    $('#prompt').text('It was mildly effective!');
                 },500);
             }
         }, 3000);
