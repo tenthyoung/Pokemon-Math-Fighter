@@ -36,6 +36,37 @@ body {
     height: 200px;
 }
 
+.scratch {
+    position: absolute;
+    height: 35%;
+    top: 50%; 
+    right: 30%;
+    z-index: 3;
+}
+
+#meteor {
+    position: absolute;
+    height: 300px;
+    z-index: 4;
+    right: 0.5%;
+    bottom: 30%;
+}
+
+#bubble {
+    position: absolute;
+    width: 30%;
+    top: 50%; 
+    right: 45%;
+    z-index: 3;
+}
+
+#reverseScratch {
+    transform: scaleX(-1);
+    top: 40%;
+    right: 45%;
+}
+
+
 #yourPic {
     padding-left: 50px;
     height: 150px;
@@ -60,7 +91,6 @@ body {
 }
 
 #userAnswer {
-    /* display: inline; */
     width: 70px;
     font-size: 2rem;
     margin-top: 10px;
@@ -159,6 +189,10 @@ body {
     background-image: linear-gradient(to bottom, #D10000, #E84C41);
     text-decoration: none;
     color: rgba(255, 255, 255, 0.733);
+}
+
+.opacity {
+    opacity: 0.6;
 }
 
 @media only screen and (max-width: 640px) {

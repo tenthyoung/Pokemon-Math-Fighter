@@ -1,28 +1,32 @@
-// You'll create a trivia game that shows only one question 
+// You'll create 5 trivia game that shows only one question 
 // until the player answers 
 // it or their time runs out.
-// If the player selects the correct answer, show a screen 
+// If the player selects the correct answer, show 5 screen 
 // congratulating them 
 ///for choosing the right option. 
-// After a few seconds, display the next question -- do this 
+// After 5 few seconds, display the next question -- do this 
 // without user input.
 // The scenario is similar for wrong answers and time-outs.
 
 
 // If the player runs out of time, tell the player that time's up 
 // and display 
-// the correct answer. Wait a few 
+// the correct answer. Wait 5 few 
 // seconds, then show the next question.
 // If the player chooses the wrong answer, tell the player they 
 // selected the wrong 
 // option and then display 
-// the correct answer. Wait a few seconds, then show the next question.
+// the correct answer. Wait 5 few seconds, then show the next question.
 const possibleOperators = ['+', '-', 'X', '/']
 var currentOperator;
 var number1;
 var number2;
 var correctAnswer;
-
+var intervalTimer;
+var enemyHealth = $('#enemyHealth'); //Selector
+var yourHealth = $('#yourHealth'); //Selector
+const compositeNumbers = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100, 102, 104, 105, 106, 108, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 132, 133, 134, 135, 136, 138, 140, 141, 142, 143, 144]
+var currentTime = 60;
 //If the button is clicked game starts
 $(document).ready(function() {    
     playGame();
@@ -30,8 +34,12 @@ $(document).ready(function() {
     //Listeners
     enterKeyforAttackButtonListener();
 
+    //Setting up Problem
     currentOperator = randomOperator();
     twoRandomNumbers(currentOperator);
+    displayProblem();
+
+    startTimer();
 });
 
 //Changes menu into battleScreen after pressing play
@@ -60,74 +68,205 @@ function enterKeyforAttackButtonListener () {
                     "color": "white",
                 });
               }, 300);
+            stopTimer();
+            let userAnswer = $('#userAnswer').val();
+            isAnswerCorrect(userAnswer);
         }
     });
 }
 
-//make a fuciton that gives a random currentOperator
 function randomOperator () {
     return possibleOperators[Math.floor(Math.random()*4)];
 }
 
-//make a funciton that gives a random integer
-//if it is multiplication, make it 1 to 12
-//if it is division, make it so that there is no decimals
-//let adding and subtracting be whatever
 function twoRandomNumbers (operator) {
     if (operator === '+') {
-        number1 = Math.floor(Math.random()*100)
-        number2 = Math.floor(Math.random()*100)
+        number1 = Math.floor(Math.random()*100);
+        number2 = Math.floor(Math.random()*100);
         correctAnswer = number1 + number2;
-        console.log(number1);
-        console.log(number2);   
-        console.log(correctAnswer);
     } else if (operator === '-') {
-        number1 = Math.floor(Math.random()*100)
-        number2 = Math.floor(Math.random()*100)
+        number1 = Math.floor(Math.random()*100);
+        number2 = Math.floor(Math.random()*(number1)+1);
         correctAnswer = number1 - number2;
-        console.log(number1);
-        console.log(number2);   
-        console.log(correctAnswer);
-        // alert('-');
     } else if (operator === 'X') {
-        number1 = Math.floor(Math.random()*13)
-        number2 = Math.floor(Math.random()*13)
+        number1 = Math.floor(Math.random()*13);
+        number2 = Math.floor(Math.random()*13);
         correctAnswer = number1 * number2;
-        console.log(number1);
-        console.log(number2);   
-        console.log(correctAnswer);
-        // alert('X');
     } else {
-        number1 = Math.floor(Math.random()*145)
-        number2 = Math.floor(Math.random()*13)
-        
-        // for (let index = 12; index > 0  ; index--) {
-        //     const element = array[index];
-            
-        // }
-        correctAnswer = number1 + number2;
-        console.log(number1);
-        console.log(number2);   
-        console.log(correctAnswer);
-        // alert('/');
+        number1 = Math.floor(Math.random()*compositeNumbers.length);
+        let isDivisible = false;
+        let possibleNumber2 = 12;
+        while (isDivisible != true) {
+            if (number1 % possibleNumber2 == 0) {
+                number2 = possibleNumber2;
+                isDivisible = true;
+            } else {
+                possibleNumber2--;
+            }
+        }
+        correctAnswer = number1 / number2;
     }
 }
 
-//make a function that calculates the answer
-//ans stores it into a global wariable
+function displayProblem () {
+    $('#number1').text(number1);
+    $('#operator').text(currentOperator);
+    $('#number2').text(number2);
+}
 
-//make a function that starts the timer
-//make a losing scenario for when the timer runs out
-//make a way for the user to send an attack by just
-//pressing enter
-//make a funciton that takes the value of the input,
+function resetTimer() {
+    currentTime = 60;
+    $('#currentTime').text(currentTime);
+}
+
+function startTimer() {
+    intervalTimer = setInterval(countDown, 1000);
+}
+
+function countDown() {
+    if (currentTime > 0) {
+        currentTime--;
+        $('#currentTime').text(currentTime);
+    } else if (currentTime == 0) {
+       
+    }
+
+}
+
+function stopTimer() {
+    clearInterval(intervalTimer);
+}
+
+function isAnswerCorrect(answer) {
+    if (answer == correctAnswer) {
+        console.log('Correct!');
+        correctAnswerScenario();
+    } else {
+        console.log('Wrong!');
+    }
+}
+
+
+function correctAnswerScenario () {
+    let randomAttack = Math.floor(Math.random()*3); 
+
+    if (currentTime > 50) {
+        bubble('critical');
+        setTimeout(function(){
+            charizardAttack(randomAttack);
+        },3000);
+    } else if (currentTime > 30) {
+        bubble();
+        setTimeout(function(){
+            charizardAttack(randomAttack);
+        },3000);
+        // scratch();
+    } else if (currentTime > 0) {
+        scratch();
+        setTimeout(function(){
+            charizardAttack(randomAttack);
+        },3000);
+    }
+
+
+}
+
+function charizardAttack(choice) {
+    let damagePossibilites = [10,12,15,18,20,25];
+    let index = Math.floor(Math.random()*damagePossibilites.length);
+    let damageToYourHealth = damagePossibilites[index];
+    if (choice == 0) {
+        meteor('critical', damageToYourHealth);
+        setTimeout(function(){
+            yourHealth.val(Number(yourHealth.val()) - 30);
+        },3000)
+    } else if (choice == 1){
+        meteor(' ', damageToYourHealth);
+        setTimeout(function(){
+            yourHealth.val(Number(yourHealth.val()) - damageToYourHealth);
+        },3000)
+    } else {
+        meteor(' ',damageToYourHealth);
+        setTimeout(function(){
+            yourHealth.val(Number(yourHealth.val()) - damageToYourHealth);
+        },3000)
+    }
+}
+
+function scratch () {
+    $('#prompt').text('Blastoise used Scratch!');
+
+    setTimeout(function() {
+        $('#scratch').removeClass('d-none')
+    }, 500);
+    setTimeout(function() {
+        $('#reverseScratch').removeClass('d-none')
+        enemyHealth.val(Number(enemyHealth.val()) - 5);
+    }, 300);
+    setTimeout(function() {
+        $('#scratch').addClass('d-none')
+        $('#reverseScratch').addClass('d-none')
+        $('#prompt').text('It wasn\'t very effective...');
+    }, 1000);
+}
+
+function bubble (power) {
+    $('#prompt').text('Blastoise used Bubble!');
+
+    setTimeout(function () {
+        setTimeout(function() {
+            $('#bubble').removeClass('d-none')
+            $('#bubble').addClass('animated shake infinite')
+        }, 500);
+        setTimeout(function() {
+            $('#bubble').addClass('d-none')
+            if (power == 'critical') {
+                enemyHealth.val(Number(enemyHealth.val()) - 15);
+                $('#prompt').text('It was super effective!');
+            } else {
+                enemyHealth.val(Number(enemyHealth.val()) - 10);
+                $('#prompt').text('It was effective!');
+            }
+        }, 2000);
+    },1000);
+
+}
+
+function meteor (power,damage) {
+
+    setTimeout(function () {
+        setTimeout(function() {
+            $('#meteorDiv').removeClass('d-none');
+            $('#prompt').text('Charizard used Meteor!');
+            $('#meteorDiv').addClass('animated slideInRight ');
+            $('#meteor').addClass('animated slideInDown ');
+        }, 500);
+        setTimeout(function() {
+            $('#meteorDiv').addClass('d-none');
+            if (power == 'critical') {
+                setTimeout(function(){
+                    $('#prompt').text('Critical hit!');
+                },2000);
+            } else {
+                setTimeout(function(){
+                    $('#prompt').text('It was effective!');
+                },500);
+            }
+        }, 3000);
+    },1000);    
+
+
+}
+//make 5 losing scenario for when the timer runs out
+
+//make 5 funciton that takes the value of the input,
 //as well as the current time
 //and then compares it with the answer
 //if it is correct, and the time is less than 10 seconds
 //you do 20 damage, Charizard then does 5 damage
 //if it is correct, and the time is less than 30 seconds,
 //you do 10 damage, Charizard then does 10 damage
-//if it is correct, and the time is less than a minute
+//if it is correct, and the time is less than 5 minute
 //you do 5 damage, Charaizard then does 15 damage,
 //if you're wrong, or time runs out, then you don't attack
 //and charizard attacks you, Charizard does 20 damage

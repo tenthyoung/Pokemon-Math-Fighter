@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/animate.css" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,18 +34,26 @@
                 </div>
             </div>
             <div id="enemyPicContainer" class="col-6">
-                <img id="enemyPic"src="./assets/images/charizard.gif" alt="">
+                <img id="enemyPic" class="" src="./assets/images/charizard.gif" alt="Charizard Picture">
+                <img src="./assets/images/scratch.png" alt="Scratch" id="scratch" class="scratch d-none">
+                <img src="./assets/images/scratch.png" alt="Scratch" id="reverseScratch" class="scratch d-none">
+                <img src="./assets/images/bubble.png" alt="bubble Attack" class="d-none" id="bubble">
             </div>
         </div>
         <div id="yourRow" class="row">
             <div id="yourPicContainer" class="col-6">
                 <img src="./assets/images/blastoise.gif" alt="" class="" id="yourPic"> 
+                <div id="meteorDiv" class="d-none ">
+                        <!-- animated slideInRight infinite -->
+                    <img src="./assets/images/meteor.png" class="" alt="picture of meteor" id="meteor">
+                    <!-- animated slideInDown infinite -->
+                </div>
             </div>
             <div id="yourInfoContainer" class="col-6">
                 <div class="pokemonInfo">
                     Blastoise <span class="level">Lv54</span> 
                     <br>
-                        <progress id="yourHealth" value="100" max="100" class="healthBar"></progress>
+                    <progress id="yourHealth" value="100" max="100" class="healthBar"></progress>
                 </div>
             </div>
         </div>
@@ -52,11 +61,11 @@
             <div id="textBox" class="col-12">
                 <div class="row">
                     <div id="leftText" class="col-7">
-                        <p id="prompt">Solve Math Problems to do more damage!</p>
+                        <p id="prompt">Solve Math Problems to do more damage (Press Enter to Attack)!</p>
                         <p id="mathLine">
-                            <span id="number1">5</span>
-                            <span id="operator">X</span>
-                            <span id="number2">2</span> =
+                            <span id="number1"></span>
+                            <span id="operator"></span>
+                            <span id="number2"></span> =
                         </p>
                     </div>
                     <div class="col-5">
