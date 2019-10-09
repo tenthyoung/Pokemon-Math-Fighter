@@ -1,22 +1,3 @@
-// You'll create 5 trivia game that shows only one question 
-// until the player answers 
-// it or their time runs out.
-// If the player selects the correct answer, show 5 screen 
-// congratulating them 
-///for choosing the right option. 
-// After 5 few seconds, display the next question -- do this 
-// without user input.
-// The scenario is similar for wrong answers and time-outs.
-
-
-// If the player runs out of time, tell the player that time's up 
-// and display 
-// the correct answer. Wait 5 few 
-// seconds, then show the next question.
-// If the player chooses the wrong answer, tell the player they 
-// selected the wrong 
-// option and then display 
-// the correct answer. Wait 5 few seconds, then show the next question.
 const possibleOperators = ['+', '-', 'X', '/']
 var currentOperator;
 var number1;
@@ -35,24 +16,25 @@ var numCorrect = 0;
 $(document).ready(function() {    
     playGame();
 
-    //Listeners
+    // Activate Listeners
     enterKeyforAttackButtonListener();
 
-    //Setting up Problem
+    // Setting up Problem
     currentOperator = randomOperator();
     twoRandomNumbers(currentOperator);
     displayProblem();
 
-    startTimer();
 });
 
-//Changes menu into battleScreen after pressing play
+// Changes menu into battleScreen after pressing play
 function playGame () {
     $('#playButton').on('click', function() {
         // $('#dancingPikachu').hide();
         // $('#playButton').hide();
         $('#menu').addClass('d-none');
         $('#battleScreen').removeClass('d-none');
+        startTimer();
+
     });
 }
 
@@ -61,11 +43,13 @@ function enterKeyforAttackButtonListener () {
         if (e.keyCode == 13) {
 
             $('#attackButton').trigger('click');
+
             $('#attackButton').css({
                 "background": "#D10000",
                 "background-image": "linear-gradient(to bottom, #D10000, #E84C41)",
                 "color": "rgba(255, 255, 255, 0.733)",
             });
+
             setTimeout(function() {
                 $('#attackButton').css({
                     "background": "#F63E3E",
@@ -73,8 +57,11 @@ function enterKeyforAttackButtonListener () {
                     "color": "white",
                 });
               }, 300);
+
             stopTimer();
+
             let userAnswer = $('#userAnswer').val();
+
             if (sequenceStarted == false) {
                 sequenceStarted = true;
                 isAnswerCorrect(userAnswer);
@@ -129,6 +116,7 @@ function resetTimer() {
 
 function startTimer() {
     intervalTimer = setInterval(countDown, 1000);
+    console.log(`Interval timer ID is: ${intervalTimer}`);
 }
 
 function countDown() {
@@ -145,6 +133,7 @@ function countDown() {
 
 function stopTimer() {
     clearInterval(intervalTimer);
+    console.log(`Interval cleared! ${intervalTimer}`);
 }
 
 function isAnswerCorrect(answer) {
@@ -203,20 +192,24 @@ function charizardAttack(choice) {
         },3000)
     }
 
-    isHealthZero();
+
 }
 
-function isHealthZero() {
+function isHealthZero(didCharizardAttack = false) {
+    console.log(`isHealthZero function invoked!`);
     if ( Number(yourHealth.val()) <= 0) {
         youLost();
     } else if ( Number(enemyHealth.val()) <= 0 ) {
         youWin();
-    } else {
+    } else if (didCharizardAttack === true) {
+        // newQuestion is called twice because this function runs every time there is an attack, but
+        // newQuestion() should only run if charizard attacked
         newQuestion();
     }
 }
 
 function youLost() {
+    console.log(`you lose!`);
     stopTimer();
     $('#gameOver').removeClass('d-none');
     $('#youLose').removeClass('d-none');
@@ -239,27 +232,30 @@ function youWin() {
     },1000)
 }
 
-function addReplayListener(lastGameResult){
-    if (lastGameResult =='lost') {
-        $('#gameOver').addClass('d-none');
-        $('#youLose').addClass('d-none');
+function addReplayListener(mostRecentGameResult){
+    if (mostRecentGameResult  === 'lost') {
         $('#replayLoseButton').on('click', function(){
-            console.log('replaybutton clicked');
-            $('#battleScreen').addClass('d-none');
-            $('#menu').removeClass('d-none');
+            location.reload();
+            // console.log('replaybutton clicked');
+            // $('#gameOver').addClass('d-none');
+            // $('#youLose').addClass('d-none');
+            // $('#battleScreen').addClass('d-none');
+            // $('#menu').removeClass('d-none');
         });
     } else {
-        $('#gameOver').addClass('d-none');
-        $('#youWin').addClass('d-none');
         $('#replayWinButton').on('click', function(){
-            console.log('replaybutton clicked');
-            $('#battleScreen').addClass('d-none');
-            $('#menu').removeClass('d-none');
+            location.reload();
+            // console.log('replaybutton clicked');
+            // $('#gameOver').addClass('d-none');
+            // $('#youWin').addClass('d-none');
+            // $('#battleScreen').addClass('d-none');
+            // $('#menu').removeClass('d-none');
         });
     }
 }
 
 function newQuestion () {
+    console.log(`newQuestion() run!`);
     setTimeout( function() {
         numQuestions++;
         $('#userAnswer').val('');
@@ -269,6 +265,8 @@ function newQuestion () {
         displayProblem();
 
         resetTimer();
+
+        // For some reason this runs twice after you get the answer correct
         startTimer();
         sequenceStarted = false;
     },5000);
@@ -327,10 +325,16 @@ function meteor (power) {
             if (power == 'critical') {
                 setTimeout(function(){
                     $('#prompt').text('Critical hit!');
+                    console.log('critical hit');
+                    didCharizardAtack = true;
+                    isHealthZero(didCharizardAtack);
                 },500);
             } else {
                 setTimeout(function(){
                     $('#prompt').text('It was mildly effective!');
+                    console.log('mildly effective');
+                    didCharizardAtack = true;
+                    isHealthZero(didCharizardAtack);
                 },500);
             }
         }, 3000);
