@@ -227,6 +227,7 @@ function youWin() {
     $('#youWin').removeClass('d-none');
     $('.correctAnswers').text(numCorrect);
     $('.totalQuestions').text(numQuestions);
+
     setTimeout(function(){
         addReplayListener('won');
     },1000)
@@ -290,7 +291,7 @@ function scratch () {
     isHealthZero();
 }
 
-function bubble (power) {
+function bubble(power) {
     $('#prompt').text('Blastoise used Bubble!');
 
     setTimeout(function () {
@@ -303,13 +304,14 @@ function bubble (power) {
             if (power == 'critical') {
                 enemyHealth.val(Number(enemyHealth.val()) - 20);
                 $('#prompt').text('It was super effective!');
+                isHealthZero();
             } else {
                 enemyHealth.val(Number(enemyHealth.val()) - 15);
                 $('#prompt').text('It was effective!');
+                isHealthZero();
             }
         }, 2000);
     },1000);
-    isHealthZero();
 }
 
 function meteor (power) {
